@@ -1,0 +1,46 @@
+using System.Net;
+using System.Threading.Tasks;
+using AutoFixture.Xunit3;
+using AwesomeAssertions;
+using Novus.Api.BackgroundServices;
+using Novus.Api.Controllers;
+using Microsoft.AspNetCore.Http;
+using Xunit;
+
+namespace Novus.Api.UnitTests.Controllers
+{
+    public class PingsControllerTests : ControllerTestsBase<PingsController>
+    {
+        [Theory, AutoData]
+        public async Task GetWebsitePingStatusCode_should_return_Ok_with_expected_result(HttpStatusCode code)
+        {
+            //given
+            var pingServiceMock = Mocker.GetMock<IPingService>();
+            pingServiceMock.SetupGet(x => x.WebsiteStatusCode)
+                .Returns(code);
+
+            //when
+            var result = await Controller.GetWebsitePingStatusCodeAsync(TestContext.Current.CancellationToken);
+
+            //then
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+            result.Value.Should().BeAssignableTo<string>();
+            result.Value.Should().Contain(code.ToString());
+            result.Value.Should().Contain(((int)code).ToString());
+        }
+
+        [Fact]
+        public async Task GetRandomStatusCode_should_return_Ok_with_expected_result()
+        {
+            //when
+            var result = await Controller.GetRandomStatusCodeAsync(TestContext.Current.CancellationToken);
+
+            //then
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+            result.Value.Should().BeAssignableTo<string>();
+            result.Value.Should().NotBeNullOrEmpty();
+        }
+    }
+}

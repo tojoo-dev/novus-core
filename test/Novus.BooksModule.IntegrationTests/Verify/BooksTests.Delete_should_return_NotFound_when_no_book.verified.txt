@@ -1,0 +1,9 @@
+﻿{
+  Response: {
+    Status: 404 Not Found
+  },
+  Request: {
+    Method: DELETE,
+    Uri: http://localhost/api/books/2147483647
+  }
+}

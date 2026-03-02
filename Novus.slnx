@@ -1,0 +1,29 @@
+<Solution>
+  <Folder Name="/ci/">
+    <File Path=".github/workflows/codeql-analysis.yml" />
+    <File Path=".github/workflows/docker-build.yml" />
+    <File Path=".github/workflows/dotnetcore.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="docker-compose.yml" />
+    <File Path="dockerfile" />
+    <File Path="Novus.ruleset" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Novus.Api/Novus.Api.csproj" />
+    <Project Path="src/Novus.BooksModule/Novus.BooksModule.csproj" />
+    <Project Path="src/Novus.Core/Novus.Core.csproj" />
+    <Project Path="src/Novus.Db/Novus.Db.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="test/Novus.Api.IntegrationTests/Novus.Api.IntegrationTests.csproj" />
+    <Project Path="test/Novus.Api.UnitTests/Novus.Api.UnitTests.csproj" />
+    <Project Path="test/Novus.ArchitecturalTests/Novus.ArchitecturalTests.csproj" />
+    <Project Path="test/Novus.BooksModule.IntegrationTests/Novus.BooksModule.IntegrationTests.csproj" />
+    <Project Path="test/Novus.Core.UnitTests/Novus.Core.UnitTests.csproj" />
+  </Folder>
+</Solution>

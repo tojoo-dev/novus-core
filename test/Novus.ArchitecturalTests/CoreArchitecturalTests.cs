@@ -1,0 +1,93 @@
+using System;
+using Novus.Core;
+using Microsoft.EntityFrameworkCore;
+using NetArchTest.Rules;
+using Xunit;
+
+namespace Novus.ArchitecturalTests
+{
+    public class CoreArchitecturalTests
+    {
+        private static readonly Types _coreTypes = Types.InAssembly(typeof(FeatureFlags).Assembly);
+
+        [Fact]
+        public void Core_should_not_use_AspNetCore()
+        {
+            var result = _coreTypes
+                .ShouldNot()
+                .HaveDependencyOn("Microsoft.AspNetCore")
+                .GetResult();
+
+            Assert.True(result.IsSuccessful, $"Failing Types: {string.Join("; ", result.FailingTypeNames ?? Array.Empty<string>())}");
+        }
+
+        [Fact]
+        public void Repositories_should_not_use_Services()
+        {
+            var result = _coreTypes
+                .That()
+                .ResideInNamespace("Novus.Core.Repositories")
+                .ShouldNot()
+                .HaveDependencyOn("Novus.Core.Services")
+                .GetResult();
+
+            Assert.True(result.IsSuccessful, $"Failing Types: {string.Join("; ", result.FailingTypeNames ?? Array.Empty<string>())}");
+        }
+
+        [Fact]
+        public void Repositories_should_have_Repository_suffix()
+        {
+            var result = _coreTypes
+                .That()
+                .ResideInNamespace("Novus.Core.Repositories")
+                .And()
+                .AreNotAbstract()
+                .Should()
+                .HaveNameEndingWith("Repository")
+                .GetResult();
+
+            Assert.True(result.IsSuccessful, $"Failing Types: {string.Join("; ", result.FailingTypeNames ?? Array.Empty<string>())}");
+        }
+
+        [Fact]
+        public void Services_should_have_Service_suffix()
+        {
+            var result = _coreTypes
+                .That()
+                .ResideInNamespace("Novus.Core.Services")
+                .And()
+                .AreNotAbstract()
+                .Should()
+                .HaveNameEndingWith("Service")
+                .GetResult();
+
+            Assert.True(result.IsSuccessful, $"Failing Types: {string.Join("; ", result.FailingTypeNames ?? Array.Empty<string>())}");
+        }
+
+        [Fact]
+        public void Dto_should_have_Dto_suffix()
+        {
+            var result = _coreTypes
+                .That()
+                .ResideInNamespace("Novus.Core.Dtos")
+                .Should()
+                .HaveNameEndingWith("Dto")
+                .GetResult();
+
+            Assert.True(result.IsSuccessful, $"Failing Types: {string.Join("; ", result.FailingTypeNames ?? Array.Empty<string>())}");
+        }
+
+        [Fact]
+        public void DbContext_should_have_Context_suffix()
+        {
+            var result = _coreTypes
+                .That()
+                .Inherit(typeof(DbContext))
+                .Should()
+                .HaveNameEndingWith("Context")
+                .GetResult();
+
+            Assert.True(result.IsSuccessful, $"Failing Types: {string.Join("; ", result.FailingTypeNames ?? Array.Empty<string>())}");
+        }
+    }
+}
