@@ -1,0 +1,6 @@
+@Novus_HostAddress = http://localhost:5009
+
+GET {{Novus_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
